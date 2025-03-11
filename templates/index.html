@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Portfolio CMPE and Recommendation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-5">Stock Portfolio CMPE and Recommendation</h1>
+        
+        <div class="card mb-5">
+            <div class="card-body">
+                <form id="portfolioForm" action="/results" method="GET">
+                    <div class="steps">
+                        <div class="step active">
+                            <div class="step-icon">
+                                <span>1</span>
+                            </div>
+                            <div class="step-content">
+                                <h3>Investment Amount</h3>
+                                <p>Investment Amount (in $)</p>
+                                <div class="form-group">
+                                    <input type="number" id="amount" name="amount" class="form-control" placeholder="$ 5000" min="5000" required>
+                                    <small class="text-muted">Amount should be greater than $5000</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-icon">
+                                <span>2</span>
+                            </div>
+                            <div class="step-content">
+                                <h3>Choose Investment Strategy</h3>
+                                <p>Choose up to 2 Strategies</p>
+                                <div class="form-group" id="strategies-container">
+                                    <!-- Strategies will be loaded dynamically -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-icon">
+                                <span>3</span>
+                            </div>
+                            <div class="step-content">
+                                <h3>Confirm</h3>
+                                <p>Check Input</p>
+                                <div id="summary" class="mt-3">
+                                    <!-- Summary will be populated dynamically -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mt-4">
+                        <button type="button" id="prevBtn" class="btn btn-secondary" disabled>Back</button>
+                        <button type="button" id="nextBtn" class="btn btn-primary">Next</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">Market Overview Widget</h2>
+                <p class="card-text">Market Overview Widget provides a quick glance at the latest market activity across various sectors.</p>
+                
+                <ul class="nav nav-tabs" id="marketTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="indices-tab" data-bs-toggle="tab" data-bs-target="#indices" type="button" role="tab" aria-controls="indices" aria-selected="true">Indices</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="commodities-tab" data-bs-toggle="tab" data-bs-target="#commodities" type="button" role="tab" aria-controls="commodities" aria-selected="false">Commodities</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="bonds-tab" data-bs-toggle="tab" data-bs-target="#bonds" type="button" role="tab" aria-controls="bonds" aria-selected="false">Bonds</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="forex-tab" data-bs-toggle="tab" data-bs-target="#forex" type="button" role="tab" aria-controls="forex" aria-selected="false">Forex</button>
+                    </li>
+                </ul>
+                
+                <div class="tab-content mt-3" id="marketTabContent">
+                    <div class="tab-pane fade show active" id="indices" role="tabpanel" aria-labelledby="indices-tab">
+                        <div class="market-data-container" id="indices-container">
+                            <div class="text-center py-5">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="commodities" role="tabpanel" aria-labelledby="commodities-tab">
+                        <div class="market-data-container" id="commodities-container">
+                            <div class="text-center py-5">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="bonds" role="tabpanel" aria-labelledby="bonds-tab">
+                        <div class="market-data-container" id="bonds-container">
+                            <div class="text-center py-5">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="forex" role="tabpanel" aria-labelledby="forex-tab">
+                        <div class="market-data-container" id="forex-container">
+                            <div class="text-center py-5">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="ticker-container mt-4">
+            <div class="ticker-wrap">
+                <div class="ticker" id="stock-ticker">
+                    <!-- Stock ticker will be populated dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html> 
