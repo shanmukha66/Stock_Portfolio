@@ -58,7 +58,7 @@ Each investment strategy maps to at least three different stocks or ETFs:
 
 1. **Clone the repository**:
    ```
-   git clone https://github.com/yourusername/stock-portfolio-engine.git
+   git clone (https://github.com/shanmukha66/Stock_Portfolio.git)
    cd stock-portfolio-engine
    ```
 
@@ -124,14 +124,11 @@ stock_portfolio_engine/
 
 ## Contributors
 
-- [Your Name](https://github.com/yourusername)
-- [Team Member 1](https://github.com/teammember1)
+- [Shanmukha Manoj Kakani](https://github.com/shanmukha66)
+- [Vineela Mukkamala](https://github.com/vinny3m)
 - [Team Member 2](https://github.com/teammember2)
 - [Team Member 3](https://github.com/teammember3)
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Acknowledgments
 
